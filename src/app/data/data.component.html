@@ -1,1 +1,19 @@
-<p>data works!</p>
+<div>
+  <app-header></app-header>
+    <input id="search" type="text" [(ngModel)]="search" #ctrl="ngModel" placeholder='Search cars'>
+    <button (click)="applySearch()">Go</button>
+    <button (click)="clearSearch()">Clear Search</button>
+    <table>
+      <thead>
+          <th>ID</th>
+          <th>Name</th>
+      </thead>
+      <tbody>
+        <tr *ngFor="let car of cars">
+            <td>{{car.ID}}</td>
+            <td>{{car.name}}</td>
+        </tr>
+    </tbody>
+  </table>
+  <app-footer></app-footer>
+</div>
