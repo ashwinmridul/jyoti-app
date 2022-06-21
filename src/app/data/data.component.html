@@ -1,19 +1,32 @@
-<div>
-  <app-header></app-header>
-    <input id="search" type="text" [(ngModel)]="search" #ctrl="ngModel" placeholder='Search cars'>
-    <button (click)="applySearch()">Go</button>
-    <button (click)="clearSearch()">Clear Search</button>
-    <table>
-      <thead>
-          <th>ID</th>
-          <th>Name</th>
-      </thead>
-      <tbody>
-        <tr *ngFor="let car of cars">
-            <td>{{car.ID}}</td>
-            <td>{{car.name}}</td>
-        </tr>
-    </tbody>
+<div class="data-container">
+  <mat-form-field class="example-full-width margin-left-20" appearance="standard">
+    <mat-label>Search cars</mat-label>
+    <input matInput id="search" type="text" [(ngModel)]="search" #ctrl="ngModel" placeholder="Enter car details">
+  </mat-form-field>
+  <button mat-raised-button color="accent" class="margin-left-20" (click)="applySearch()">Go</button>
+  <button mat-raised-button class="margin-left-20" (click)="clearSearch()">Clear Search</button>
+  <table mat-table [dataSource]="cars" class="mat-elevation-z8">
+
+    <!--- Note that these columns can be defined in any order.
+          The actual rendered columns are set as a property on the row definition" -->
+
+    <!-- ID Column -->
+    <ng-container matColumnDef="ID">
+      <th mat-header-cell *matHeaderCellDef> ID </th>
+      <td mat-cell *matCellDef="let element"> {{element.ID}} </td>
+    </ng-container>
+
+    <!-- Name Column -->
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef> Name </th>
+      <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
   </table>
-  <app-footer></app-footer>
+  <mat-paginator [pageSizeOptions]="[5, 10, 20]"
+                 showFirstLastButtons
+                 aria-label="Select page of periodic elements">
+  </mat-paginator>
 </div>

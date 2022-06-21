@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import {AfterViewInit, Component, ViewChild} from '@angular/core';
+import {MatPaginator} from '@angular/material/paginator';
+import {MatTableDataSource} from '@angular/material/table';
 
 type Car = {
   ID: number,
@@ -32,17 +34,19 @@ const data: Array<Car> = [
   templateUrl: './data.component.html',
   styleUrls: ['./data.component.css']
 })
-export class DataComponent implements OnInit {
+export class DataComponent implements AfterViewInit {
 
   search: string = '';
-  cars: Array<Car> = data;
-  constructor() {}
+  cars: MatTableDataSource<Car> = new MatTableDataSource<Car>(data);
+  displayedColumns: Array<string> = ['ID', 'name'];
 
-  ngOnInit(): void {
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  ngAfterViewInit() {
+    this.cars.paginator = this.paginator;
   }
 
   applySearch() {
-    this.cars = data.filter(item => item.name.toLowerCase().includes(this.search.toLowerCase()));
+    this.cars.filter = this.search.trim().toLowerCase();
   }
 
   clearSearch() {
